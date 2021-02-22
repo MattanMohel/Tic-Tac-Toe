@@ -1,0 +1,27 @@
+﻿  Main.cpp
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\ConsoleDrawer.h(7,15): warning C4838: conversion from 'const int' to 'SHORT' requires a narrowing conversion
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\ConsoleDrawer.h(7,18): warning C4838: conversion from 'const int' to 'SHORT' requires a narrowing conversion
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\ConsoleDrawer.h(32,20): warning C4018: '<': signed/unsigned mismatch
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\ConsoleDrawer.h(33,21): warning C4018: '<': signed/unsigned mismatch
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\BoardManager.h(37,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(83,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(85,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(86,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(88,52): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(88,27): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(89,52): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(89,27): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(96,38): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(101,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(103,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(104,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(107,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(107,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(118,25): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.h(118,18): warning C4244: 'initializing': conversion from 'double' to 'const int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\AI.h(52,20): warning C4018: '<': signed/unsigned mismatch
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\AI.h(93,26): warning C4018: '<': signed/unsigned mismatch
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.cpp(35,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\Main.cpp(55,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\vsrepos\Tic Tac Toe\Tic Tac Toe\BoardManager.h(18): warning C4715: 'BoardDataString': not all control paths return a value
+  Tic Tac Toe.vcxproj -> C:\vsrepos\Tic Tac Toe\Debug\Tic Tac Toe.exe
