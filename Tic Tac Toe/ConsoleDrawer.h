@@ -27,13 +27,6 @@ void ClearAll() {
 	DWORD written;
 
 	GetConsoleScreenBufferInfo(console, &screen);
-	FillConsoleOutputCharacterA(
-		console, ' ', screen.dwSize.X * screen.dwSize.Y, COORD{ 0, 0 }, &written);
+	FillConsoleOutputCharacterA(console, ' ', screen.dwSize.X * screen.dwSize.Y, COORD{ 0, 0 }, &written);
 }
-void ClearAll(const size_t width, const size_t height) {
-	for (int x = 0; x < width + 100; x++) {
-		for (int y = 0; y < height + 20; y++) {
-			ClearAtPoint(x, y);
-		}
-	}
-}
+
