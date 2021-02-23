@@ -51,7 +51,7 @@ bool isYPosOnLine(const int y) {
 
 //Drawing the board
 void DrawBoard() {
-
+	SetCursor(0, 0);
 	for (int y = 0; y < 3; y++) {
 		for (int x = 0; x < 3; x++) {
 			const char value = '0' + x + (y * 3);

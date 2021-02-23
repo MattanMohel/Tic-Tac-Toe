@@ -7,60 +7,80 @@
 
 int main() {
 
+	BoardData winner = BoardData::empty;
+	unsigned int inputIndex = 0;
+	bool gameEnded = false;
+	bool playerTurn;
+
 	while (true)
 	{
-		BoardData winner = BoardData::empty;
-		unsigned int inputIndex = 0;
-		bool gameEnded = false;
-		bool playerTurn = true;
-		int m_Input;
+		ResetCursor(); 
+		std::cout << "  Press 'M' to play first, 'O' to play second  ";
+
+		while (true)
+		{
+			char input = _getch();
+
+			if (input == 'o') {
+				playerTurn = false;
+				break;
+			}
+			else if (input == 'm') {
+				playerTurn = true;
+				break;
+			}
+		}
+
 		DrawBoard();
 
 		//main game loop
 		while (!gameEnded) {
+
 			//player input loop
+			int inputValue;
+
 			while (true) {
 				if (playerTurn)
 				{
 					//recieve input
-					m_Input = _getch() - '0';
+					inputValue = _getch() - '0';
 
 					//TODO: needs some cleanup/refactoring
-					if (m_Input <= 8 && m_Input >= 0 && isEmpty(m_Input)) {
+					if (inputValue <= 8 && inputValue >= 0 && isEmpty(inputValue)) {
 						inputIndex++;
 
-						DrawX(m_Input);
+						DrawX(inputValue);
 
-						int x = (m_Input % 3);
-						int y = floor(m_Input / 3);
+						int x = (inputValue % 3);
+						int y = floor(inputValue / 3);
 						boardData[x][y] = BoardData::X;
 
-						if (ScanBoard(m_Input, BoardData::X)) {
+						if (ScanBoard(inputValue, BoardData::X)) {
 							gameEnded = true;
 							winner = BoardData::X;
 						}
 
-						playerTurn = false;
+						playerTurn = !playerTurn;
 						break;
 					}
 				}
 				else {
 					inputIndex++;
 
-					m_Input = GetNextMove();
+					inputValue = GetNextMove();
 
-					DrawO(m_Input);
+					DrawO(inputValue);
 
-					int x = (m_Input % 3);
-					int y = floor(m_Input / 3);
+					int x = (inputValue % 3);
+					int y = floor(inputValue / 3);
 					boardData[x][y] = BoardData::O;
 
-					if (ScanBoard(m_Input, BoardData::O)) {
+					if (ScanBoard(inputValue, BoardData::O)) {
 						gameEnded = true;
 						winner = BoardData::O;
 					}
 
-					playerTurn = true;
+					playerTurn = !playerTurn;
 					break;
 				}
 
@@ -83,22 +103,25 @@ int main() {
 			}
 		}
 
-		SetCursor(width + 5, 3);
-		std::cout << "  Press 'R' to replay, 'E' to quit  ";
+		ResetCursor();
+		std::cout << "     Press 'R' to replay, 'E' to quit           ";
 
-		char input = ' ';
-		while (input != 'r' && input != 'e') {
-			input = _getch();
-		}
+		while (true) {
+			char input = _getch();
 
-		switch (input) {
-		case 'r':
-			ResetBoard();
-			ClearAll();
-			break;
-		default:
-			ClearAll();
-			return 1;
+			if (input == 'r') {
+				
+				gameEnded = false;
+
+				ResetBoard();
+				ClearAll();
+				break;
+			}
+
+			if (input == 'e') {
+				ClearAll();
+				return 1;
+			}
 		}
 	}
 }

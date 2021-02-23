@@ -22,11 +22,13 @@ void ClearAtPoint(const int x, const int y) {
 	DrawAtPoint(x, y, " ");
 }
 void ClearAll() {
-	for (int x = 0; x < 100; x++) {
-		for (int y = 0; y < 50; y++) {
-			ClearAtPoint(x, y);
-		}
-	}
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screen;
+	DWORD written;
+
+	GetConsoleScreenBufferInfo(console, &screen);
+	FillConsoleOutputCharacterA(
+		console, ' ', screen.dwSize.X * screen.dwSize.Y, COORD{ 0, 0 }, &written);
 }
 void ClearAll(const size_t width, const size_t height) {
 	for (int x = 0; x < width + 100; x++) {

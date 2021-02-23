@@ -32,8 +32,6 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 
 	//sets off recursive for loop
 	for (int move = 0; move < spaces.size(); move++) {
-		bool SKIP_ITERATION_RECURSION = false;
-
 		//if the space is already in use -> skip
 		if (!isEmpty(spaces[move].ReturnPosAsInt())) {
 			continue;
@@ -53,7 +51,7 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 		}
 #endif
 		
-		//check for victory - ends current branch, otherwise neutral
+		//checks for victory
 		if (ScanBoard(spaces[move].ReturnPosAsInt(), data)) {
 			switch (data) {
 			case BoardData::O:
@@ -71,10 +69,8 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 
 				break;
 			}
-
-			SKIP_ITERATION_RECURSION = true;
 		}
-		//if no one won ->at the very bottom with no plays left or at MAX
+		//if no one won -> if at the very bottom with no plays left or at MAX
 		else if (depth == MAX_DEPTH || (size_t)depth + 1 == spaces.size()) {
 
 			switch (data) {
@@ -87,25 +83,22 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 					optimalBranch.SetBranch(spaces[currentMoveIndex], 0);
 				}
 			}
-
-			SKIP_ITERATION_RECURSION = true;
 		}
-
-		//if you can neither win, lose, or tie this step, don't skip recursion
-		if (!SKIP_ITERATION_RECURSION) {
+		//if you can neither win, lose, or tie this step, go into recursion
+		else {
 			
 			//recursive call with depth incremented
 			Branch minimaxScore = MINIMAX(depth + 1, spaces);
 			
 			switch (data) {
 			case BoardData::O:
-				if (minimaxScore.GetScore() > optimalBranch.GetScore() || !optimalBranch.isSet()) {
+				if (minimaxScore.GetScore() > optimalBranch.GetScore()) {
 					optimalBranch.SetBranch(spaces[currentMoveIndex], minimaxScore.GetScore());
 				}
 
 				break;
 			case BoardData::X:
-				if (minimaxScore.GetScore() < optimalBranch.GetScore() || !optimalBranch.isSet()) {
+				if (minimaxScore.GetScore() < optimalBranch.GetScore()) {
 					optimalBranch.SetBranch(spaces[currentMoveIndex], minimaxScore.GetScore());
 				}
 
