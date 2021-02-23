@@ -142,7 +142,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AI.h" />
+    <ClInclude Include="Minimax.h" />
     <ClInclude Include="BoardManager.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="ConsoleDrawer.h" />

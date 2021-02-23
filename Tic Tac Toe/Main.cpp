@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Main.h"
-#include "AI.h"
+#include "Minimax.h"
 
 int main() {
 
