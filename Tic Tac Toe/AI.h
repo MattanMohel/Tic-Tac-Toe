@@ -4,43 +4,17 @@
 #include <random>
 
 #include "Main.h"
+#include "Branch.h"
 #include "Vector2.h"
 #include "BoardManager.h"
 
-#define MAX 999
+#define MAX 9999
 #define POINT 10
 
-#define SHOW_PROCESS false;
-
-struct Branch {
-public:
-	//setters
-	void SetBranch(Vector2 vector2, int score) {
-		m_Pos = vector2;
-		m_Score = score;
-		IS_CONFIGURED = true;
-	}
-
-	//getters
-	const int GetScore() const {
-		return m_Score;
-	}
-	const Vector2 GetPosition() const {
-		return m_Pos;
-	}
-	const bool isConfigured() const {
-		return IS_CONFIGURED;
-	}
-
-private:
-	int m_Score = 0;
-	Vector2 m_Pos = Vector2(0, 0);
-
-	bool IS_CONFIGURED = false;
-};
+#define SHOW_PROCESS true
 
 //the amount of steps the AI will look ahead 
-constexpr size_t MAX_DEPTH = MAX;
+constexpr size_t MAX_DEPTH = 4;
 
 //O tries to maximize, X tries to minimize, returns the depth's optimalScore
 Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
@@ -53,8 +27,8 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 
 	//if depth is even O, if odd then X
 	BoardData data = depth % 2 == 0 ? BoardData::O : BoardData::X;
-
-	Branch optimalBranch;
+	//set startingScore to -infinity if O, infinity if X
+	Branch optimalBranch(data == BoardData::X ? MAX : -MAX);
 
 	//sets off recursive for loop
 	for (int move = 0; move < spaces.size(); move++) {
@@ -84,14 +58,14 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 			switch (data) {
 			case BoardData::O:
 				//increase score, O wants to maximize	
-				if (POINT - depth >= optimalBranch.GetScore()) {
+				if (POINT - depth > optimalBranch.GetScore()) {
 					optimalBranch.SetBranch(spaces[move], POINT - depth);
 				}
 
 				break;
 			case BoardData::X:
 				//decrease score, X wants to minimize
-				if (-POINT + depth <= optimalBranch.GetScore()) {
+				if (-POINT + depth < optimalBranch.GetScore()) {
 					optimalBranch.SetBranch(spaces[move], -POINT + depth);
 				}
 
@@ -102,7 +76,17 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 		}
 		//if no one won ->at the very bottom with no plays left or at MAX
 		else if (depth == MAX_DEPTH || (size_t)depth + 1 == spaces.size()) {
-			optimalBranch.SetBranch(spaces[move], 0);
+
+			switch (data) {
+			case BoardData::O:
+				if (0 > optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(spaces[move], 0);
+				}
+			case BoardData::X:
+				if (0 < optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(spaces[move], 0);
+				}
+			}
 
 			SKIP_ITERATION_RECURSION = true;
 		}
@@ -149,9 +133,6 @@ Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 
 	}
 	
-	if (!optimalBranch.isConfigured()) {
-		std::cout << "hello";
-	}
 	return optimalBranch;
 }
 

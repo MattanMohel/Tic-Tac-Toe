@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="AI.h" />
     <ClInclude Include="BoardManager.h" />
+    <ClInclude Include="Branch.h" />
     <ClInclude Include="ConsoleDrawer.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Vector2.h" />

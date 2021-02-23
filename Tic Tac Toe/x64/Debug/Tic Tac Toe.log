@@ -29,8 +29,6 @@ C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.h(136,34): warnin
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.h(136,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.h(147,25): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.h(147,18): warning C4244: 'initializing': conversion from 'double' to 'const int', possible loss of data
-C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\AI.h(71,5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\AI.h(134,5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.cpp(35,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\Main.cpp(55,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\Mattan\source\repos\GitHub\TicTacToe\Tic Tac Toe\BoardManager.h(18): warning C4715: 'BoardDataString': not all control paths return a value
