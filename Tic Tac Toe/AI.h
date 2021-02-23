@@ -7,61 +7,29 @@
 #include "Vector2.h"
 #include "BoardManager.h"
 
-#define MAX 99;
+#define MAX 99
+#define POINT 10
 
 struct Branch {
 public:
-	static float multiplier;
-
-	void SetVector2(const Vector2& a) {
-		position = a;
+	//setters
+	void SetBranch(Vector2 vector2, int score) {
+		m_Pos = vector2;
+		m_Score = score;
 	}
 
-	const Vector2& GetVector2() const {
-		return position;
+	//getters
+	const int GetScore() const {
+		return m_Score;
 	}
-
-	void IncreaseScore(const unsigned int a) {
-		score += a;
-	}
-
-	void DecreaseScore(const unsigned int a) {
-		score -= a;
-	}
-
-	void IncrementBranches() {
-		branches++;
-	}
-	void IncreaseBranches(const unsigned int a) {
-		branches += a;
-	}
-
-	const double GetScore() const {
-		return score / (double)branches;
+	const Vector2 GetPosition() const {
+		return m_Pos;
 	}
 
 private:
-	int score = 0;
-	int branches = 0;
-
-	Vector2 position = Vector2(0, 0);
+	int m_Score = 0;
+	Vector2 m_Pos = Vector2(0, 0);
 };
-
-int GetBestPath(const std::vector<Branch> branches) {
-	size_t rIndex = 0;
-	for (int i = 1; i < branches.size(); i++) {
-
-		rIndex = branches[i].GetScore() > branches[rIndex].GetScore() ? i : rIndex;
-		
-		//if values are equal, randmoize what it choses
-		if (branches[i].GetScore() == branches[rIndex].GetScore()) {
-			rIndex = rand() % 10 > 5 ? i : rIndex;
-		}
-	}
-
-	//returns the branch's position on the board
-	return branches[rIndex].GetVector2().ReturnPosAsInt();
-}
 
 int factorial(const int max) {
 	int value = 1;
@@ -77,17 +45,20 @@ bool ScanBoard(const int square, const BoardData data);
 //the amount of steps the AI will look ahead 
 constexpr size_t MAX_DEPTH = MAX;
 
-void MINIMAX(const int depth, std::vector<Vector2>& spaces, std::vector<Branch>& branches) {
+//O tries to maximize, X tries to minimize, returns the depth's optimalScore
+Branch MINIMAX(const int depth, std::vector<Vector2>& spaces) {
 	//which non-predicate move are you on
 	static size_t currentMove = 0;
-
-	//if depth is even O, if odd then X
-	BoardData data = depth % 2 == 0 ? BoardData::O : BoardData::X;
-
-	//resets static/global members and dependencies
+	//resets static members
 	if (depth == 0) {
 		currentMove = 0;
 	}
+
+	Branch optimalBranch;
+	//if depth is even O, if odd then X
+	BoardData data = depth % 2 == 0 ? BoardData::O : BoardData::X;
+
+
 
 	//sets off recursive for loop
 	for (int move = 0; move < spaces.size(); move++) {
@@ -96,66 +67,95 @@ void MINIMAX(const int depth, std::vector<Vector2>& spaces, std::vector<Branch>&
 		if (!isEmpty(spaces[move].ReturnPosAsInt())) {
 			continue;
 		}
-		//if on non-predicate then set it as branch pos
-		if (depth == 0) {
-			branches[currentMove].SetVector2(spaces[move]);
-		}
+
 		//adds current location to used vector
 		boardData[spaces[move].x][spaces[move].y] = data;
+		switch (data) {
+		case BoardData::X:
+			DrawX(spaces[move].ReturnPosAsInt());
+			break;
+		case BoardData::O:
+			DrawO(spaces[move].ReturnPosAsInt());
+			break;
+		}
 		
-		//check for victory
+		//check for victory - ends current branch, otherwise neutral
 		if (ScanBoard(spaces[move].ReturnPosAsInt(), data)) {
-			//the factorial value of winning in respect to depth
-			int value = factorial(spaces.size() - depth);
-			branches[currentMove].IncreaseBranches(value);
-
 			switch (data) {
 			case BoardData::O:
-				//increase score
-				branches[currentMove].IncreaseScore(value);
+				//increase score, O wants to maximize	
+				if (POINT - depth >= optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(spaces[move], POINT - depth);
+				}
+
 				break;
 			case BoardData::X:
-				//decrease score
-				branches[currentMove].DecreaseScore(value);
+				//decrease score, X wants to minimize
+				if (-POINT + depth <= optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(spaces[move], -POINT + depth);
+				}
+
 				break;
 			}
 
 			CONTINUE = true;
 		}
-		//if a neutral round or at MAX_DEPTH
-		else if (depth == MAX_DEPTH || depth + 1 == spaces.size()) {
-			//score remains neutral
-			branches[currentMove].IncrementBranches();
+		//ELSE - if no one/end and so branch has to be set
+		else if (depth == MAX_DEPTH || (size_t)depth + 1 == spaces.size()) {
+			optimalBranch.SetBranch(spaces[move], 0);
 		}
 
 		//proceed with recursion only if depth is less than MAX
 		if (depth < MAX_DEPTH && !CONTINUE) {
 			//recursive call with depthcount incremented
-			MINIMAX(depth + 1, spaces, branches);
+			Branch minimaxScore = MINIMAX(depth + 1, spaces);
+			
+			switch (data) {
+			case BoardData::O:
+				if (minimaxScore.GetScore() >= optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(minimaxScore.GetPosition(), minimaxScore.GetScore());
+				}
+
+				break;
+			case BoardData::X:
+				if (minimaxScore.GetScore() <= optimalBranch.GetScore()) {
+					optimalBranch.SetBranch(minimaxScore.GetPosition(), minimaxScore.GetScore());
+				}
+
+				break;
+			}
 		}
 
 		boardData[spaces[move].x][spaces[move].y] = BoardData::empty;
+		switch (data) {
+		case BoardData::X:
+			ClearX(spaces[move].ReturnPosAsInt());
+			break;
+		case BoardData::O:
+			ClearO(spaces[move].ReturnPosAsInt());
+			break;
+		}
 
 		//if on a non-predicate move, increment
 		if (depth == 0) {
 			currentMove++;
 		}
+
 	}
+	
+	return optimalBranch;
 }
 
 int GetNextMove() {
     std::vector<Vector2> spaces;
-	std::vector<Branch> branches;
 	for (int y = 0; y < 3; y++) {
 		for (int x = 0; x < 3; x++) {
 			//adds square to vector if empty
 			if (isEmpty(x + (3 * y))) {
 				spaces.push_back(Vector2(x, y));
-				branches.push_back(Branch());
 			}
 		}
 	}
 
-	MINIMAX(0, spaces, branches);
-	return GetBestPath(branches);
+	return 	MINIMAX(0, spaces).GetPosition().ReturnPosAsInt();
 }

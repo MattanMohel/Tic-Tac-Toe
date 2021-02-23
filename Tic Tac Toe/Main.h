@@ -89,6 +89,19 @@ void DrawX(const int square) {
 		DrawAtPoint(xOrigin - i - width / 3, yOrigin + i - height / 3, "o");
 	}
 }
+//Erases an X on the board
+void ClearX(const int square) {
+	int x = (square % 3);
+	int y = floor(square / 3);
+
+	float xOrigin = (x * width / 3) + (width / 2);
+	float yOrigin = (y * height / 3) + (height / 2);
+	for (int i = -XSize; i <= XSize; i++) {
+		DrawAtPoint(xOrigin + i - width / 3, yOrigin + i - height / 3, " ");
+		DrawAtPoint(xOrigin - i - width / 3, yOrigin + i - height / 3, " ");
+	}
+}
+
 
 //Used to draw the O
 //Gets Distance Between Points w/XY weights
@@ -107,6 +120,22 @@ void DrawO(const int square) {
 			float dis = Distance(i + x, j + y, xOrigin, yOrigin, 0.75f, 2.0f);
 			if (OMaxSize >= dis && OMinSize <= dis) {
 				DrawAtPoint(i + (x * width / 3), j + (y * height / 3), "o");
+			}
+		}
+	}
+}
+//Draws an O on the board
+void ClearO(const int square) {
+	int x = (square % 3);
+	int y = floor(square / 3);
+
+	float xOrigin = x + (width / 2 / 3);
+	float yOrigin = y + (height / 2 / 3);
+	for (int i = 0; i < width / 3; i++) {
+		for (int j = 0; j < height / 3; j++) {
+			float dis = Distance(i + x, j + y, xOrigin, yOrigin, 0.75f, 2.0f);
+			if (OMaxSize >= dis && OMinSize <= dis) {
+				DrawAtPoint(i + (x * width / 3), j + (y * height / 3), " ");
 			}
 		}
 	}
