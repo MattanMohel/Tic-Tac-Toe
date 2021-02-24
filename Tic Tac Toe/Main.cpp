@@ -7,13 +7,13 @@
 
 int main() {
 
-	BoardData winner = BoardData::empty;
-	unsigned int inputIndex = 0;
-	bool gameEnded = false;
-	bool playerTurn;
-
 	while (true)
 	{
+		BoardData winner = BoardData::empty;
+		unsigned int inputIndex = 0;
+		bool gameEnded = false;
+		bool playerTurn;
+
 		ResetCursor(); 
 		std::cout << "  Press 'M' to play first, 'O' to play second  ";
 
